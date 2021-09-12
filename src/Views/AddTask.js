@@ -1,21 +1,25 @@
 import React from 'react'
-import {useState,useEffect} from 'react'
+import {useState} from 'react'
 import axios from 'axios'
 const AddTask = () => {
     const [task,setTask]=useState({
-        id:"",
         taskName:"",
         priority:"",
         category:"",
-        isChecked:false,
+        isCompleted:0,
+        user_id:4,
     });
     const handleSubmit=(event)=>{
+        // console.log(event.target);
+         console.log(task);
         event.preventDefault();
-        const url="http://localhost:8080/tasks/";
-        const data=event.target.value;
-        axios.post(url,data)
+        const url="http://localhost:8080/api/tasks/";
+        // const data=task;
+        // console.log("data"+data);
+        axios.post(url,task)
         .then(response=>{
-            setTask({...task,id:response.data.id});
+            console.log(response);
+            // setTask({...task,id:response.data.id});
         })
         console.log(event.target.value);
     }

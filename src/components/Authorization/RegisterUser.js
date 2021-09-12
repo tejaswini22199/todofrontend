@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Task = ({tasks}) => {
+const RegisterUser = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const Task = ({tasks}) => {
     )
 }
 
-export default Task
+export default RegisterUser
