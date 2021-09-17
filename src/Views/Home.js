@@ -1,22 +1,27 @@
-import React from 'react'
+import React,{useState} from 'react'
+
 import DisplayTasks from './DisplayTasks'
 import Filter from './Filter'
-import {useState} from 'react'
-import {Link} from 'react-router-dom'
+
+
+import { Button,Paper } from '@mui/material';
+
+
 const Home = () => {
     const [tasks,setTasks]=useState([]);
     return (
         
-        <div>
+        <div style={{margin:100, marginTop:20,display:'flex',flexDirection:'column',justifyContent:'center'}}>
             <Filter setTasks={setTasks}/>
+            <Paper elevation={3} >
              <DisplayTasks tasks={tasks}/>
-            <Link to="/addTask" className="btn btn-primary">
-                Add
-            </Link>
-            
-           
+             </Paper>
+                <Button href="/addTask" variant="contained" disableElevation>
+                     Add
+                </Button>
         </div>
-    )
+   
+   )
 }
 
 export default Home

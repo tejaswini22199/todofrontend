@@ -1,8 +1,18 @@
 import axios from 'axios'
 import React from 'react'
-import {useEffect} from 'react'
+import {useEffect,useState} from 'react'
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Switch from '@mui/material/Switch';
 
 const Filter = ({setTasks}) => {
+    const [priority,setPriority] = useState("LOW");
+    const [category,setCategory] = useState("PERSONAL");
+   
+    // console.log(label);
     const baseURL='http://localhost:8080/api/tasks/4';
     useEffect(() => {
        
@@ -12,69 +22,95 @@ const Filter = ({setTasks}) => {
             console.log(response.data);
             setTasks(response.data);
         })
-    }, [])
+    }, [setTasks])
     const handleCat=(e)=>{
         console.log(e);
-        axios.get(baseURL+'?category=PERSONAL&priority=NULL')
+        setCategory(e.target.value);
+        axios.get(baseURL+`?category=${category}&priority=NULL`)
         .then(response=>{
            setTasks(response.data);
         })
     }
     const handlePr=(e)=>{
         console.log(e);
-        axios.get(baseURL+'?category=NULL&priority=LOW')
+        setPriority(e.target.value);
+        axios.get(baseURL+`?category=NULL&priority=${priority}`)
         .then(response=>{
             setTasks(response.data);
         })
     }
-    const handleCompleteTasks=()=>{
+    const completedTasks=()=>{
+      
         axios.get(baseURL+'/complete')
         .then(response=>{
             setTasks(response.data);
         })
     }
-    const handleInCompleteTasks=()=>{
-        
-        axios.get(baseURL+"/incomplete")
+    const NotcompletedTasks=()=>{
+      
+        axios.get(baseURL+'/incomplete')
         .then(response=>{
-           setTasks(response.data);
+            setTasks(response.data);
         })
+    }
+    const handleCompleteTasks=(e)=>{
+        console.log(e.target.checked);
+        if(e.target.checked){
+         completedTasks();
+        }
+        else{
+            NotcompletedTasks();
+        }
     }
     return (
         <div>
+           
+                <FormControl sx={{margin:5}}>
+                    <InputLabel id="demo-simple-select-label"> Priority </InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={priority}
+                    label="Priority"
+                    onChange={handlePr}
+                    >
+                    <MenuItem value="LOW"> LOW </MenuItem>
+                    <MenuItem value="MEDIUM"> MEDIUM </MenuItem>
+                    <MenuItem value="HIGH"> HIGH </MenuItem>
+                    </Select>
+                </FormControl>
+         
+          
+                <FormControl sx={{margin:5}} >
+                    <InputLabel id="demo-simple-select-label"> Category </InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={category}
+                    label="Category"
+                    onChange={handleCat}
+                    >
+                        <MenuItem value="WORK"> WORK </MenuItem>
+                        <MenuItem value="PERSONAL"> PERSONAL </MenuItem>
+                        <MenuItem value="CODING"> CODING </MenuItem>
+                        <MenuItem value="DESIGN"> DESIGN </MenuItem>
+                        <MenuItem value="DAILY"> DAILY </MenuItem>
+                        <MenuItem value="ENTERTAINMENT"> ENTERTAINMENT </MenuItem>
+                        <MenuItem value="STUDY"> STUDY </MenuItem>
+                    </Select>
+                </FormControl>
+          
+           
              
-                  
-              <label>
-                    Priority:
-                    <select value="LOW" onChange={(e)=>{handlePr(e)}}>
-                        <option value="LOW"> LOW </option>
-                        <option value="MEDIUM"> MEDIUM </option>
-                        <option value="HIGH">  HIGH </option>
-                    </select>
-                </label>
-         
-         
-            <label>
-                    Category:
-                    <select value="PERSONAL" onChange={(e)=>{handleCat(e)}}>
-                        <option value="WORK"> WORK </option>
-                        <option value="PERSONAL"> PERSONAL </option>
-                        <option value="CODING"> CODING </option>
-                        <option value="DESIGN"> DESIGN </option>
-                        <option value="DAILY"> DAILY </option>
-                        <option value="ENTERTAINMENT"> ENTERTAINMENT </option>
-                        <option value="STUDY"> STUDY </option>
-                    </select>
-                </label>
-               
-            <button onClick={handleCompleteTasks}>
+              <Switch  defaultChecked   onClick={handleCompleteTasks} sx={{margin:5}}/> 
+            {/* <button onClick={handleCompleteTasks}>
                 Complete
             </button>
             <button onClick={handleInCompleteTasks}>
                 InComplete
-            </button>
-            
-        </div>
+            </button> */}
+            </div>
+        
     )
 }
 

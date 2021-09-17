@@ -1,6 +1,9 @@
 import React from 'react'
 import {useState} from 'react'
 import axios from 'axios'
+
+import { FormControl ,Input, InputLabel,MenuItem ,Select} from '@mui/material'
+import { Button, TextField } from '@material-ui/core'
 const AddTask = () => {
     const [task,setTask]=useState({
         taskName:"",
@@ -25,34 +28,43 @@ const AddTask = () => {
     }
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    TaskName:
-                    <input type="text" value={task.taskName} onChange={e=>setTask({...task,taskName: e.target.value})}/>
-                </label>
-                    
-                <label>
-                    Priority:
-                    <select value={task.priority} onChange={e=>setTask({...task,priority: e.target.value})}>
-                        <option value="LOW"> LOW </option>
-                        <option value="MEDIUM"> MEDIUM </option>
-                        <option value="HIGH">  HIGH </option>
-                    </select>
-                </label>
-                <label>
-                    Category:
-                    <select value={task.category} onChange={e=>setTask({...task,category: e.target.value})}>
-                        <option value="WORK"> Work </option>
-                        <option value="PERSONAL"> Personal </option>
-                        <option value="CODING"> Coding</option>
-                        <option value="DESIGN"> Design </option>
-                        <option value="DAILY"> Daily </option>
-                        <option value="ENTERTAINMENT"> Entertainment </option>
-                        <option value="STUDY"> Study </option>
-                    </select>
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+            <FormControl onSubmit={handleSubmit}>
+                 <TextField label="taskname" id="outlined-basic" variant="outlined" value={task.taskName} onChange={e=>setTask({...task,taskName: e.target.value})}/>
+                <FormControl sx={{margin:5}}>
+                    <InputLabel id="demo-simple-select-label"> Priority </InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={task.priority}
+                    label="Priority"
+                    onChange={e=>setTask({...task,priority: e.target.value})}
+                    >
+                    <MenuItem value="LOW"> LOW </MenuItem>
+                    <MenuItem value="MEDIUM"> MEDIUM </MenuItem>
+                    <MenuItem value="HIGH"> HIGH </MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl sx={{margin:5}} >
+                    <InputLabel id="demo-simple-select-label"> Category </InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={task.category}
+                    label="Category"
+                    onChange={e=>setTask({...task,category: e.target.value})}
+                    >
+                        <MenuItem value="WORK"> WORK </MenuItem>
+                        <MenuItem value="PERSONAL"> PERSONAL </MenuItem>
+                        <MenuItem value="CODING"> CODING </MenuItem>
+                        <MenuItem value="DESIGN"> DESIGN </MenuItem>
+                        <MenuItem value="DAILY"> DAILY </MenuItem>
+                        <MenuItem value="ENTERTAINMENT"> ENTERTAINMENT </MenuItem>
+                        <MenuItem value="STUDY"> STUDY </MenuItem>
+                    </Select>
+                </FormControl>
+          
+                <Button value="Submit" variant="contained" />
+            </FormControl>
         </div>
     )
 }
